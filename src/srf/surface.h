@@ -69,8 +69,9 @@ public:
 // Stuff for rational polynomial curves, of degree one to three. These are
 // our inputs, and are also calculated for certain exact surface-surface
 // intersections.
-class SBezier {
+class SBezier  {
 public:
+    Handle(Geom_BezierCurve) hCurve;
     int             tag;
     int             auxA, auxB;
 

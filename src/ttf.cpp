@@ -594,7 +594,7 @@ void TtfFont::Flush(void) {
     lastWas = NOTHING;
 }
 
-void TtfFont::Handle(int *dx, int x, int y, bool onCurve) {
+void TtfFont::handle(int *dx, int x, int y, bool onCurve) {
     x = ((x + *dx)*scale + 512) >> 10;
     y = (y*scale + 512) >> 10;
 
@@ -658,11 +658,11 @@ void TtfFont::PlotCharacter(int *dx, int c, double spacing) {
     int i;
     int firstInContour = 0;
     for(i = 0; i < g->pts; i++) {
-        Handle(dx, g->pt[i].x, g->pt[i].y, g->pt[i].onCurve);
+        handle(dx, g->pt[i].x, g->pt[i].y, g->pt[i].onCurve);
 
         if(g->pt[i].lastInContour) {
             int f = firstInContour;
-            Handle(dx, g->pt[f].x, g->pt[f].y, g->pt[f].onCurve);
+            handle(dx, g->pt[f].x, g->pt[f].y, g->pt[f].onCurve);
             firstInContour = i + 1;
             Flush();
         }

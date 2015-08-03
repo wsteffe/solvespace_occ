@@ -7,6 +7,14 @@
 #ifndef __SOLVESPACE_H
 #define __SOLVESPACE_H
 
+#if defined(HAVE_OCE_CONFIG_H)
+ #include <oce-config.h>
+#elif defined(HAVE_OCC_CONFIG_H)
+ #include <config.h>
+#endif
+
+#include <Geom_BezierCurve.hxx>
+
 #include <config.h>
 #include <stdlib.h>
 #include <ctype.h>
@@ -490,7 +498,7 @@ public:
     const char *FontFileBaseName(void);
 
     void Flush(void);
-    void Handle(int *dx, int x, int y, bool onCurve);
+    void handle(int *dx, int x, int y, bool onCurve);
     void PlotCharacter(int *dx, int c, double spacing);
     void PlotString(char *str, double spacing,
                     SBezierList *sbl, Vector origin, Vector u, Vector v);

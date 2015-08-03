@@ -4,10 +4,39 @@
 //
 // Copyright 2008-2013 Jonathan Westhues.
 //-----------------------------------------------------------------------------
+
+#if defined(HAVE_OCE_CONFIG_H)
+ #include <oce-config.h>
+#elif defined(HAVE_OCC_CONFIG_H)
+ #include <config.h>
+#endif
+
+#include<TColgp_Array1OfPnt.hxx>
+#include<TColStd_Array1OfReal.hxx>
+#include<gp_Pnt.hxx>
+
 #include "../solvespace.h"
 
 SBezier SBezier::From(Vector4 p0, Vector4 p1) {
     SBezier ret;
+//**walter steffe--begin
+    Vector pp0=p0.PerspectiveProject();
+    Vector pp1=p1.PerspectiveProject();
+    TColgp_Array1OfPnt AP(0,1);
+    TColStd_Array1OfReal AW(0,1);
+    AW.SetValue(0,p0.w);
+    AW.SetValue(1,p1.w);
+    AP.SetValue(0,gp_Pnt(pp0.x,pp0.y,pp0.z));
+    AP.SetValue(1,gp_Pnt(pp1.x,pp1.y,pp1.z));
+    gp_Pnt P0=AP.Value(0);
+    gp_Pnt P1=AP.Value(1);
+    double W0=AW.Value(0);
+    double W1=AW.Value(1);
+    Vector dpp=pp0.Minus(pp1);
+    if(dpp.Magnitude() > 1.e-10)
+      ret.hCurve=new Geom_BezierCurve(AP, AW);
+//      ret.hCurve=new Geom_BezierCurve(AP);
+//**walter steffe--end
     ZERO(&ret);
     ret.deg = 1;
     ret.weight[0] = p0.w;
@@ -19,6 +48,20 @@ SBezier SBezier::From(Vector4 p0, Vector4 p1) {
 
 SBezier SBezier::From(Vector4 p0, Vector4 p1, Vector4 p2) {
     SBezier ret;
+//**walter steffe--begin
+    Vector pp0=p0.PerspectiveProject();
+    Vector pp1=p1.PerspectiveProject();
+    Vector pp2=p2.PerspectiveProject();
+    TColgp_Array1OfPnt AP(0,2);
+    TColStd_Array1OfReal AW(0,2);
+    AW.SetValue(0,p0.w);
+    AW.SetValue(1,p1.w);
+    AW.SetValue(2,p2.w);
+    AP.SetValue(0,gp_Pnt(pp0.x,pp0.y,pp0.z));
+    AP.SetValue(1,gp_Pnt(pp1.x,pp1.y,pp1.z));
+    AP.SetValue(2,gp_Pnt(pp2.x,pp2.y,pp2.z));
+    ret.hCurve=new Geom_BezierCurve(AP, AW);
+//**walter steffe--end
     ZERO(&ret);
     ret.deg = 2;
     ret.weight[0] = p0.w;
@@ -32,6 +75,23 @@ SBezier SBezier::From(Vector4 p0, Vector4 p1, Vector4 p2) {
 
 SBezier SBezier::From(Vector4 p0, Vector4 p1, Vector4 p2, Vector4 p3) {
     SBezier ret;
+//**walter steffe--begin
+    Vector pp0=p0.PerspectiveProject();
+    Vector pp1=p1.PerspectiveProject();
+    Vector pp2=p2.PerspectiveProject();
+    Vector pp3=p3.PerspectiveProject();
+    TColgp_Array1OfPnt AP(0,3);
+    TColStd_Array1OfReal AW(0,3);
+    AW.SetValue(0,p0.w);
+    AW.SetValue(1,p1.w);
+    AW.SetValue(2,p2.w);
+    AW.SetValue(3,p3.w);
+    AP.SetValue(0,gp_Pnt(pp0.x,pp0.y,pp0.z));
+    AP.SetValue(1,gp_Pnt(pp1.x,pp1.y,pp1.z));
+    AP.SetValue(2,gp_Pnt(pp2.x,pp2.y,pp2.z));
+    AP.SetValue(3,gp_Pnt(pp3.x,pp3.y,pp3.z));
+    ret.hCurve=new Geom_BezierCurve(AP, AW);
+//**walter steffe--end
     ZERO(&ret);
     ret.deg = 3;
     ret.weight[0] = p0.w;

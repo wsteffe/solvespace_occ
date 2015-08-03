@@ -2,7 +2,9 @@
 
 include_directories(
     ${OPENGL_INCLUDE_DIR}
-    ${PNG_INCLUDE_DIRS})
+    ${PNG_INCLUDE_DIRS}
+    ${OCC_INCLUDES}
+    )
 
 link_directories(
     ${PNG_LIBRARY_DIRS})
@@ -314,7 +316,11 @@ add_executable(solvespace WIN32 MACOSX_BUNDLE
 target_link_libraries(solvespace
     "${OPENGL_LIBRARIES}"
     "${PNG_LIBRARIES}"
+     ${OCC_LIBRARIES}
+     ${OCC_3PARTIES_LIBRARIES}
     "${platform_LIBRARIES}")
+
+
 
 if(WIN32 AND NOT MINGW)
     set_target_properties(solvespace PROPERTIES
